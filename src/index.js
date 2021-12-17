@@ -42,14 +42,6 @@ module.exports = function(schema, option) {
     return String(value);
   };
 
-  // flexDirection -> flex-direction
-  const parseCamelToLine = (string) => {
-    return string
-      .split(/(?=[A-Z])/)
-      .join('-')
-      .toLowerCase();
-  };
-
   const generateLess = (schema) => {
     let strLess = '';
 
@@ -60,7 +52,7 @@ module.exports = function(schema, option) {
         strLess += `.${className} {`;
 
         for (let key in style[className]) {
-          strLess += `${parseCamelToLine(key)}: ${style[className][key]};\n`;
+          strLess += `${_.kebabCase(key)}: ${style[className][key]};\n`;
         }
       }
 
@@ -303,7 +295,7 @@ module.exports = function(schema, option) {
     } else {
       const type = schema.componentName.toLowerCase();
 
-      if (['page', 'block'].indexOf(type) !== -1) {
+      if (['page'].indexOf(type) !== -1) {
         // 容器组件处理: state/method/dataSource/lifeCycle/render
         const states = [];
         const lifeCycles = [];
@@ -376,11 +368,11 @@ module.exports = function(schema, option) {
     return result;
   };
 
-  if (option.utils) {
-    Object.keys(option.utils).forEach((name) => {
-      utils.push(`const ${name} = ${option.utils[name]}`);
-    });
-  }
+  // if (option.utils) {
+  //   Object.keys(option.utils).forEach((name) => {
+  //     utils.push(`const ${name} = ${option.utils[name]}`);
+  //   });
+  // }
 
   // start parse schema
   transform(schema);
