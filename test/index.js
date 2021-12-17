@@ -23,7 +23,7 @@ co(function*() {
     prettier: prettier,
     _: _,
     responsive: {
-      width: 750,
+      width: 375,
       viewportWidth: 375
     },
     utils: {

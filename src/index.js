@@ -3,6 +3,8 @@ module.exports = function(schema, option) {
   const width = option.responsive.width || 750;
   const rpx = width == 375 ? 2 : 1;
 
+  console.log({width}, {rpx}, option.responsive.width)
+
   // imports
   const imports = [];
 
@@ -52,6 +54,7 @@ module.exports = function(schema, option) {
         strLess += `.${className} {`;
 
         for (let key in style[className]) {
+          // console.log(style[className])
           strLess += `${_.kebabCase(key)}: ${style[className][key]};\n`;
         }
       }
@@ -73,8 +76,9 @@ module.exports = function(schema, option) {
   // convert to responsive unit, such as vw
   const parseStyle = (styles) => {
     for (let style in styles) {
-      for (let key in styles[style]) {
-        switch (key) {
+      console.log(style, styles[style])
+      // for (let key in styles[style]) {
+        switch (style) {
           case 'fontSize':
           case 'marginTop':
           case 'marginBottom':
@@ -98,10 +102,11 @@ module.exports = function(schema, option) {
           case 'borderTopLeftRadius':
           case 'borderRadius':
             // styles[style][key] = (parseInt(styles[style][key]) / _w).toFixed(2) + 'vw';
-            styles[style][key] = rpx == 1 ? parseInt(styles[style][key]) + 'px' : parseInt(styles[style][key]) * 2 + 'px';
+            console.log(rpx)
+            styles[style] = rpx == 1 ? parseInt(styles[style]) + 'px' : (parseInt(styles[style]) * 2) + 'px';
             break;
         }
-      }
+      // }
     }
 
     return styles;
@@ -245,7 +250,7 @@ module.exports = function(schema, option) {
     let props = '';
 
     Object.keys(schema.props).forEach((key) => {
-      if (['className', 'style', 'text', 'src'].indexOf(key) === -1) {
+      if (['className', 'style', 'text', 'src', 'lines'].indexOf(key) === -1) {
         props += ` ${key}={${parseProps(schema.props[key])}}`;
       }
     });
