@@ -138,6 +138,7 @@ module.exports = function(schema, option) {
       const { params, content } = parseFunction(value);
       return `(${params}) => {${content}}`;
     }
+    return value
   };
 
   // parse async dataSource
@@ -392,9 +393,10 @@ module.exports = function(schema, option) {
           import Taro from '@tarojs/taro'
           import React, { PureComponent } from 'react';
           import { View, Image, Text } from '@tarojs/components';
+          import { Inject, posi, auth2 } from 'utils';
           ${imports.join('\n')}
           import { IndexService } from './index.service';
-          import sty from './index.module';\n
+          import sty from './index.module.less';\n
           ${utils.join('\n')}\n
           ${classes.join('\n')}
         `,
